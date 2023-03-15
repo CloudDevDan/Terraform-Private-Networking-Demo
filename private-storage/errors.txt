@@ -1,0 +1,15 @@
+╷
+│ Error: containers.Client#GetProperties: Failure responding to request: StatusCode=403 -- Original Error: autorest/azure: Service returned an error. Status=403 Code="AuthorizationFailure" Message="This request is not authorized to perform this operation.\nRequestId:891c8c2f-701e-0059-119f-56606a000000\nTime:2023-03-14T18:02:17.8359938Z"
+│
+│   with module.private-storage-account[2].azurerm_storage_container.example[0],
+│   on private-storage-account/storage-main.tf line 32, in resource "azurerm_storage_container" "example":
+│   32: resource "azurerm_storage_container" "example" {
+│
+╵
+
+│ Error: checking for presence of existing Queue "mysamplequeue1" (Storage Account "clouddevdan086fa1e8be9f"): queues.Client#GetMetaData: Failure responding to request: StatusCode=403 -- Original Error: autorest/azure: Service returned an error. Status=403 Code="AuthorizationFailure" Message="This request is not authorized to perform this operation.\nRequestId:6a55197d-5003-0061-219f-56c4aa000000\nTime:2023-03-14T18:02:17.7892226Z"
+│
+│   with module.private-storage-account[2].azurerm_storage_queue.example[1],
+│   on private-storage-account/storage-main.tf line 39, in resource "azurerm_storage_queue" "example":
+│   39: resource "azurerm_storage_queue" "example" {
+│

@@ -1,0 +1,10 @@
+variable "resource_group_name" { type = string }
+variable "location" { type = string }
+variable "tags" { type = map(any) }
+variable "virtual_network_name" { type = string }
+variable "hub_resource_group_name" { type = string }
+variable "hub_virtual_network_name" { type = string }
+variable "hub_virtual_network_id" { type = string }
+variable "address_space" { type = string }
+variable "endpoints_subnet_name" { type = string }
+variable "endpoints_subnet_address_space" { type = string }
