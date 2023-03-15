@@ -109,6 +109,18 @@ module "private-key-vault" {
   ]
 }
 
+# forced time delay to allow DNS propagation
+resource "time_sleep" "vault_endpoint_propagation" {
+  create_duration = "2m"
+
+  triggers = {
+    propagation = module.private-key-vault.vault_endpoint_propagation
+  }
+  depends_on = [
+    time_sleep.peering_propagation
+  ]
+}
+
 # Module for storage accounts with private endpoints
 # includes containers, tables and queues
 # storage account primary key saved as key vault secret
@@ -123,15 +135,6 @@ module "private-storage-account" {
   endpoints_subnet_id  = module.vnet.endpoints-subnet-id
   private_dns_zone_ids = data.azurerm_private_dns_zone.dns_zones
   key_vault_id         = module.private-key-vault.key_vault_id
-}
-
-# # forced time delay to allow DNS propagation - this is a shared resources, so it needs to be in a usable state before other resources can refer to it
-resource "time_sleep" "vault_endpoint_propagation" {
-  create_duration = "2m"
-
-  triggers = {
-    propagation = module.private-key-vault.vault_endpoint_propagation
-  }
   depends_on = [
     time_sleep.vault_endpoint_propagation
   ]
