@@ -85,6 +85,7 @@ module "spoke-private-dns-zones-link" {
   virtual_network_id      = module.vnet.spoke-vnet-id
 }
 
+# Module for Key Vault accounts with private endpoints
 module "private-key-vault" {
   source               = "./private-key-vault"
   tags                 = local.tags
