@@ -96,6 +96,15 @@ module "spoke-private-dns-zones-link" {
   ]
 }
 
+# forced time delay to allow DNS propagation
+resource "time_sleep" "dns_link_propagation" {
+  create_duration = "2m"
+  triggers = {
+    peering_confirmation = module.spoke-private-dns-zones-link.dns_zone_virtual_network_link_id
+  }
+}
+
+# Module for Key Vault accounts with private endpoints
 module "private-key-vault" {
   source               = "./private-key-vault"
   tags                 = local.tags
@@ -105,7 +114,7 @@ module "private-key-vault" {
   endpoints_subnet_id  = module.vnet.endpoints-subnet-id
   private_dns_zone_ids = data.azurerm_private_dns_zone.dns_zones
   depends_on = [
-    time_sleep.peering_propagation
+    time_sleep.dns_link_propagation
   ]
 }
 
@@ -116,9 +125,6 @@ resource "time_sleep" "vault_endpoint_propagation" {
   triggers = {
     propagation = module.private-key-vault.vault_endpoint_propagation
   }
-  depends_on = [
-    time_sleep.peering_propagation
-  ]
 }
 
 # Module for storage accounts with private endpoints
